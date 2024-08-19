@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests{
+mod rotate_array_tests {
     use dsa::*;
 
     #[test]

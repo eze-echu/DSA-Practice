@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests {
+mod square_array_tests {
     use dsa::*;
     #[test]
     fn test_square_array_basic() {

@@ -92,18 +92,38 @@ pub fn monotonic_array(arr: Vec<i32>) -> bool {
     }
     mi || md
 }
-
+/// rotate_array rotates a given vector of integers to the right by k steps.
+/// The rotation is done in-place and does not return anything.
+///
+/// # Arguments
+/// * `arr` - A mutable reference to a vector of integers
+/// * `k` - The number of steps to rotate the vector by
+///
+/// # Example
+/// ```rust
+/// use dsa::rotate_array;
+/// let mut arr = vec![1, 2, 3, 4, 5, 6, 7];
+/// rotate_array(&mut arr, 3);
+/// assert_eq!(arr, vec![5, 6, 7, 1, 2, 3, 4]);
+/// ```
+///
+/// # Complexity
+/// The current implementation has a complexity of O(n)
+/// because it iterates through the array once
 pub fn rotate_array(arr: &mut Vec<i32>, k: i32) {
     if k != 0{
-        let rotation = k as usize % arr.len();
-        arr.reverse();
-        arr[..rotation].reverse();
-        arr[rotation..].reverse();
+        // This is the old version of the function which has a time complexity of O(n)
+        // but is wildly inefficient
+        //
         // let mut new_arr: Vec<i32> = vec![0; arr.len()];
         // new_arr.splice(..=rotate_by, arr[rotate_by - 1..].to_vec());
         // new_arr.splice(rotate_by.., arr[..rotate_by - 1].to_vec());
 
         // arr.clear();
         // arr.append(&mut new_arr)
+        let rotation = k as usize % arr.len();
+        arr.reverse();
+        arr[..rotation].reverse();
+        arr[rotation..].reverse();
     }
 }
