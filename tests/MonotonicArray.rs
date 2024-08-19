@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests{
+mod monotonic_array_tests {
     use dsa::*;
     #[test]
     fn test_basic_increasing(){
