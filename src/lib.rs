@@ -92,3 +92,18 @@ pub fn monotonic_array(arr: Vec<i32>) -> bool {
     }
     mi || md
 }
+
+pub fn rotate_array(arr: &mut Vec<i32>, k: i32) {
+    if k != 0{
+        let rotation = k as usize % arr.len();
+        arr.reverse();
+        arr[..rotation].reverse();
+        arr[rotation..].reverse();
+        // let mut new_arr: Vec<i32> = vec![0; arr.len()];
+        // new_arr.splice(..=rotate_by, arr[rotate_by - 1..].to_vec());
+        // new_arr.splice(rotate_by.., arr[..rotate_by - 1].to_vec());
+
+        // arr.clear();
+        // arr.append(&mut new_arr)
+    }
+}
