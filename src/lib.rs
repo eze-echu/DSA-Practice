@@ -127,3 +127,41 @@ pub fn rotate_array(arr: &mut Vec<i32>, k: i32) {
         arr[rotation..].reverse();
     }
 }
+/// calculate_area_of_array finds the maximum area of a container formed by the heights in the array.
+/// The function uses a two-pointer approach to optimize the search for the maximum area.
+///
+/// # Arguments
+/// * `lengths` - A vector of integers representing the heights of the container walls
+///
+/// # Returns
+/// * `(i32, (usize, usize))` - A tuple containing the maximum area and the indices of the container walls that form this area
+///
+/// # Example
+/// ```rust
+/// use dsa::calculate_area_of_array;
+/// let lengths = vec![1, 8, 6, 2, 5, 4, 8, 3, 7];
+/// let result = calculate_area_of_array(lengths);
+/// assert_eq!(result, (49, (1, 8)));
+/// ```
+///
+/// # Complexity
+/// The current implementation has a complexity of O(n)
+/// because it iterates through the array once using two pointers
+pub fn calculate_area_of_array(lengths: Vec<i32>) -> (i32, (usize, usize)){
+    let mut highest = (0, (0, 0));
+    let mut i: usize = 0;
+    let mut j = lengths.len() - 1;
+    while i != j{
+        let area = (j - i) as i32 * lengths[i].min(lengths[j]);
+        if area > highest.0{
+            highest = (area, (i, j));
+        }
+        if lengths[i] > lengths[j] {
+            j -= 1;
+        }
+        else{
+            i += 1;
+        }
+    }
+    highest
+}
