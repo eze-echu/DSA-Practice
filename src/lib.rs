@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 /// square_array takes a vector of integers and returns a vector of integers
 /// The returned vector contains the squares of the integers in the input vector
 /// The returned vector is sorted in ascending order
@@ -10,14 +12,14 @@
 /// ```rust
 /// use dsa::square_array;
 /// let arr = vec![-4, -1, 0, 3, 10];
-/// let result = square_array(arr);
+/// let result = square_array(&arr);
 /// assert_eq!(result, vec![0, 1, 9, 16, 100]);
 /// ```
 ///
 /// # Complexity
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once
-pub fn square_array(arr: Vec<i32>) -> Vec<i32>{
+pub fn square_array(arr: &[i32]) -> Vec<i32>{
     //* The following commented code is the first solution
     //*     It is a brute force attempt that has a complexity of O(n log n)
     //*     due to the fact that we are iterating through the array and sorting it
@@ -70,17 +72,17 @@ pub fn square_array(arr: Vec<i32>) -> Vec<i32>{
 /// # Example
 /// ```rust
 /// use dsa::monotonic_array;
-/// let arr = vec![1, 2, 2, 3];
-/// assert_eq!(monotonic_array(arr), true);
-/// let arr = vec![6, 5, 4, 4];
-/// assert_eq!(monotonic_array(arr), true);
-/// let arr = vec![1, 3, 2];
-/// assert_eq!(monotonic_array(arr), false);
+/// let arr = [1, 2, 2, 3];
+/// assert_eq!(monotonic_array(&arr), true);
+/// let arr = [6, 5, 4, 4];
+/// assert_eq!(monotonic_array(&arr), true);
+/// let arr = [1, 3, 2];
+/// assert_eq!(monotonic_array(&arr), false);
 /// ```
 ///
 /// # Complexity
 /// The current implementation has a complexity of O(n)
-pub fn monotonic_array(arr: Vec<i32>) -> bool {
+pub fn monotonic_array(arr: &[i32]) -> bool {
     let mut md = true;
     let mut mi = true;
     for i in 1..arr.len() {
@@ -110,7 +112,7 @@ pub fn monotonic_array(arr: Vec<i32>) -> bool {
 /// # Complexity
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once
-pub fn rotate_array(arr: &mut Vec<i32>, k: i32) {
+pub fn rotate_array(arr: &mut [i32], k: i32) {
     if k != 0{
         // This is the old version of the function which has a time complexity of O(n)
         // but is wildly inefficient
@@ -139,15 +141,15 @@ pub fn rotate_array(arr: &mut Vec<i32>, k: i32) {
 /// # Example
 /// ```rust
 /// use dsa::calculate_area_of_array;
-/// let lengths = vec![1, 8, 6, 2, 5, 4, 8, 3, 7];
-/// let result = calculate_area_of_array(lengths);
+/// let lengths = [1, 8, 6, 2, 5, 4, 8, 3, 7];
+/// let result = calculate_area_of_array(&lengths);
 /// assert_eq!(result, (49, (1, 8)));
 /// ```
 ///
 /// # Complexity
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once using two pointers
-pub fn calculate_area_of_array(lengths: Vec<i32>) -> (i32, (usize, usize)){
+pub fn calculate_area_of_array(lengths: &[i32]) -> (i32, (usize, usize)){
     let mut highest = (0, (0, 0));
     let mut i: usize = 0;
     let mut j = lengths.len() - 1;
@@ -164,4 +166,57 @@ pub fn calculate_area_of_array(lengths: Vec<i32>) -> (i32, (usize, usize)){
         }
     }
     highest
+}
+/// This function finds two indices in the array such that the elements at those indices add up to the given value.
+/// It uses a hash map to store the elements and their indices for efficient lookup.
+///
+/// # Arguments
+/// * `arr` - A slice of integers
+/// * `val` - The target sum value
+///
+/// # Returns
+/// * `Vec<usize>` - A vector containing the indices of the two elements that add up to the target value
+///
+/// # Example
+/// ```rust
+/// use dsa::two_sum;
+/// let arr = [2, 7, 11, 15];
+/// let result = two_sum(&arr, 9);
+/// assert_eq!(result, vec![0, 1]);
+/// ```
+///
+/// # Complexity
+/// The current implementation has a complexity of O(n)
+/// because it iterates through the array once and uses a hash map for O(1) average time complexity lookups
+pub fn two_sum(arr: &[i32], val: i32) -> Vec<usize> {
+    // This was my first solution to the problem
+    // it is shit, it has a complexity of O(n^2)
+    // 
+    // let mut result = vec![];
+    // for i in 0..arr.len(){
+    //     let inverted;
+    //     if arr[i] < 0 || val < 0 {
+    //         inverted = -1;
+    //     }
+    //     else{
+    //         inverted = 1;
+    //     }
+    //     let b = arr[i].clone();
+    // 
+    //     if arr.contains(&((val - b) * inverted)){
+    //         result.push(i);
+    //         result.push(arr.iter().position(|x| x == &((val - b) * inverted)).unwrap());
+    //         break;
+    //     }
+    // }
+    // return result;
+    let mut map = HashMap::new();
+    for (i, &num) in arr.iter().enumerate() {
+        let complement = val - num;
+        if let Some(&index) = map.get(&complement) {
+            return vec![index, i];
+        }
+        map.insert(num, i);
+    }
+    vec![]
 }
