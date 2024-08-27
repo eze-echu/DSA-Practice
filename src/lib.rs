@@ -220,3 +220,20 @@ pub fn two_sum(arr: &[i32], val: i32) -> Vec<usize> {
     }
     vec![]
 }
+pub fn isomorphic_array(arr1: &str, arr2: &str) -> bool {
+    let mut encoded_id: HashMap<char, char> = HashMap::new();
+    let mut original_id: HashMap<char, char> = HashMap::new();
+    for i in 0..arr1.chars().count() {
+        let original = arr1.as_bytes()[i] as char;
+        let encoded = arr2.as_bytes()[i] as char;
+        if original_id.contains_key(&original) && original_id[&original] != encoded
+            || encoded_id.contains_key(&encoded) && encoded_id[&encoded] != original
+        {
+            return false;
+        } else {
+            original_id.insert(original, encoded);
+            encoded_id.insert(encoded, original);
+        }
+    }
+    true
+}
