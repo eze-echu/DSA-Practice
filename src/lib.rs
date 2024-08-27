@@ -20,28 +20,28 @@ use std::collections::HashMap;
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once
 pub fn square_array(arr: &[i32]) -> Vec<i32>{
-    //* The following commented code is the first solution
-    //*     It is a brute force attempt that has a complexity of O(n log n)
-    //*     due to the fact that we are iterating through the array and sorting it
-    //*     so O(n) + O(n log n) = O(n log n)
-    //*     Every sorting operation has a complexity of O(n log n)
-    //*     unless it's done while creating the array
-    //*
-    //*     if arr.len() == 0 {
-    //*         return vec![];
-    //*     }
-    //*     let mut new_arr: Vec<i32> = arr.iter()
-    //*         .map(|x| {
-    //*             if x < &0 {
-    //*                 (x * x) * -1
-    //*             } else {
-    //*                 x * x
-    //*             }
-    //*         }).collect();
-    //*     new_arr.sort();
-    //*
-    // The current implementation has a complexity of O(n)
-    // because it iterates through the array once
+    /*The following commented code is the first solution
+    It is a brute force attempt that has a complexity of O(n log n)
+    due to the fact that we are iterating through the array and sorting it
+    so O(n) + O(n log n) = O(n log n)
+    Every sorting operation has a complexity of O(n log n)
+    unless it's done while creating the array
+
+    if arr.len() == 0 {
+        return vec![];
+    }
+    let mut new_arr: Vec<i32> = arr.iter()
+        .map(|x| {
+            if x < &0 {
+                (x * x) * -1
+            } else {
+                x * x
+            }
+        }).collect();
+    new_arr.sort();
+    The current implementation has a complexity of O(n)
+    because it iterates through the array once*/
+
     if arr.is_empty() {
         return vec![];
     }
@@ -114,15 +114,15 @@ pub fn monotonic_array(arr: &[i32]) -> bool {
 /// because it iterates through the array once
 pub fn rotate_array(arr: &mut [i32], k: i32) {
     if k != 0{
-        // This is the old version of the function which has a time complexity of O(n)
-        // but is wildly inefficient
-        //
-        // let mut new_arr: Vec<i32> = vec![0; arr.len()];
-        // new_arr.splice(..=rotate_by, arr[rotate_by - 1..].to_vec());
-        // new_arr.splice(rotate_by.., arr[..rotate_by - 1].to_vec());
+        /*This is the old version of the function which has a time complexity of O(n)
+        but is wildly inefficient
 
-        // arr.clear();
-        // arr.append(&mut new_arr)
+        let mut new_arr: Vec<i32> = vec![0; arr.len()];
+        new_arr.splice(..=rotate_by, arr[rotate_by - 1..].to_vec());
+        new_arr.splice(rotate_by.., arr[..rotate_by - 1].to_vec());
+
+        arr.clear();
+        arr.append(&mut new_arr)*/
         let rotation = k as usize % arr.len();
         arr.reverse();
         arr[..rotation].reverse();
@@ -189,27 +189,27 @@ pub fn calculate_area_of_array(lengths: &[i32]) -> (i32, (usize, usize)){
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once and uses a hash map for O(1) average time complexity lookups
 pub fn two_sum(arr: &[i32], val: i32) -> Vec<usize> {
-    // This was my first solution to the problem
-    // it is shit, it has a complexity of O(n^2)
-    // 
-    // let mut result = vec![];
-    // for i in 0..arr.len(){
-    //     let inverted;
-    //     if arr[i] < 0 || val < 0 {
-    //         inverted = -1;
-    //     }
-    //     else{
-    //         inverted = 1;
-    //     }
-    //     let b = arr[i].clone();
-    // 
-    //     if arr.contains(&((val - b) * inverted)){
-    //         result.push(i);
-    //         result.push(arr.iter().position(|x| x == &((val - b) * inverted)).unwrap());
-    //         break;
-    //     }
-    // }
-    // return result;
+    /*This was my first solution to the problem
+    it is shit, it has a complexity of O(n^2)
+
+    let mut result = vec![];
+    for i in 0..arr.len(){
+        let inverted;
+        if arr[i] < 0 || val < 0 {
+            inverted = -1;
+        }
+        else{
+            inverted = 1;
+        }
+        let b = arr[i].clone();
+
+        if arr.contains(&((val - b) * inverted)){
+            result.push(i);
+            result.push(arr.iter().position(|x| x == &((val - b) * inverted)).unwrap());
+            break;
+        }
+    }
+    return result;*/
     let mut map = HashMap::new();
     for (i, &num) in arr.iter().enumerate() {
         let complement = val - num;
@@ -219,4 +219,21 @@ pub fn two_sum(arr: &[i32], val: i32) -> Vec<usize> {
         map.insert(num, i);
     }
     vec![]
+}
+pub fn isomorphic_array(arr1: &str, arr2: &str) -> bool {
+    let mut encoded_id: HashMap<char, char> = HashMap::new();
+    let mut original_id: HashMap<char, char> = HashMap::new();
+    for i in 0..arr1.chars().count() {
+        let original = arr1.as_bytes()[i] as char;
+        let encoded = arr2.as_bytes()[i] as char;
+        if original_id.contains_key(&original) && original_id[&original] != encoded
+            || encoded_id.contains_key(&encoded) && encoded_id[&encoded] != original
+        {
+            return false;
+        } else {
+            original_id.insert(original, encoded);
+            encoded_id.insert(encoded, original);
+        }
+    }
+    true
 }
