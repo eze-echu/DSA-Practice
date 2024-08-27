@@ -19,7 +19,7 @@ use std::collections::HashMap;
 /// # Complexity
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once
-pub fn square_array(arr: &[i32]) -> Vec<i32>{
+pub fn square_array(arr: &[i32]) -> Vec<i32> {
     /*The following commented code is the first solution
     It is a brute force attempt that has a complexity of O(n log n)
     due to the fact that we are iterating through the array and sorting it
@@ -48,7 +48,7 @@ pub fn square_array(arr: &[i32]) -> Vec<i32>{
     let mut new_arr: Vec<i32> = vec![0; arr.len()];
     let mut a = 0;
     let mut z = arr.len() - 1;
-    for i in (0..arr.len()).rev(){
+    for i in (0..arr.len()).rev() {
         if arr[a].abs() > arr[z].abs() {
             new_arr[i] = arr[a].abs().pow(2);
             a += 1;
@@ -86,9 +86,9 @@ pub fn monotonic_array(arr: &[i32]) -> bool {
     let mut md = true;
     let mut mi = true;
     for i in 1..arr.len() {
-        if arr[i] > arr[i-1] {
+        if arr[i] > arr[i - 1] {
             md = false;
-        } else if arr[i] < arr[i-1] {
+        } else if arr[i] < arr[i - 1] {
             mi = false;
         }
     }
@@ -113,7 +113,7 @@ pub fn monotonic_array(arr: &[i32]) -> bool {
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once
 pub fn rotate_array(arr: &mut [i32], k: i32) {
-    if k != 0{
+    if k != 0 {
         /*This is the old version of the function which has a time complexity of O(n)
         but is wildly inefficient
 
@@ -149,19 +149,18 @@ pub fn rotate_array(arr: &mut [i32], k: i32) {
 /// # Complexity
 /// The current implementation has a complexity of O(n)
 /// because it iterates through the array once using two pointers
-pub fn calculate_area_of_array(lengths: &[i32]) -> (i32, (usize, usize)){
+pub fn calculate_area_of_array(lengths: &[i32]) -> (i32, (usize, usize)) {
     let mut highest = (0, (0, 0));
     let mut i: usize = 0;
     let mut j = lengths.len() - 1;
-    while i != j{
+    while i != j {
         let area = (j - i) as i32 * lengths[i].min(lengths[j]);
-        if area > highest.0{
+        if area > highest.0 {
             highest = (area, (i, j));
         }
         if lengths[i] > lengths[j] {
             j -= 1;
-        }
-        else{
+        } else {
             i += 1;
         }
     }
